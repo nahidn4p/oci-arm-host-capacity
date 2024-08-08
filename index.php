@@ -18,6 +18,7 @@ $envFilename = empty($argv[1]) ? '.env' : $argv[1];
 $dotenv = Dotenv::createUnsafeImmutable(__DIR__, $envFilename);
 $dotenv->safeLoad();
 
+$availabilityDomains = explode(',', getenv('OCI_AVAILABILITY_DOMAIN'));
 /*
  * No need to modify any value in this file anymore!
  * Copy .env.example to .env and adjust there instead.
@@ -30,7 +31,8 @@ $config = new OciConfig(
     getenv('OCI_TENANCY_ID'),
     getenv('OCI_KEY_FINGERPRINT'),
     getenv('OCI_PRIVATE_KEY_FILENAME'),
-    getenv('OCI_AVAILABILITY_DOMAIN') ?: null, // null or '' or 'jYtI:PHX-AD-1' or ['jYtI:PHX-AD-1','jYtI:PHX-AD-2']
+    #getenv('OCI_AVAILABILITY_DOMAIN') ?: null, // null or '' or 'jYtI:PHX-AD-1' or ['jYtI:PHX-AD-1','jYtI:PHX-AD-2']
+    $availabilityDomains,
     getenv('OCI_SUBNET_ID'),
     getenv('OCI_IMAGE_ID'),
     (int) getenv('OCI_OCPUS'),
